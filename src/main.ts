@@ -28,14 +28,14 @@ class Apple
 {
     x:number = 1;
     y:number = 1;
-    move(){ 
-        var i =0;
+    move() {
+        var i = 0;
         let good = true;
-        
+
         var ix = 0;
         var iy = 0;
         let openCells = [];
-
+        let close = null;
         for (ix = 0; ix < MAP.height; ix++) {
             for (iy = 0; iy < MAP.width; iy++) {
                 good = true;
@@ -46,19 +46,30 @@ class Apple
                 }
                 if (good) {
                     openCells.push(new SnakeCell(ix, iy));
+                    let sx = SNAKE.x - ix;
+                    let sy = SNAKE.y - iy;
+                    if (sx < 1) sx = sx * -1;
+                    if (sy < 1) sy = sy * -1;
+                    if (sx < 5 && sy < 5) {
+                        close = new SnakeCell(ix, iy);
+                    }
                 }
             }
         }
-        if(openCells.length == 0)
-        {
+        if (openCells.length == 0) {
             SNAKE.gameOver = true;
             return;
         }
+        if (close != null) {
+            APPLE.x = close.x;
+            APPLE.y = close.y;
+        } else {
+
         var i = Math.floor(Math.random() * openCells.length);
         var c = openCells[i];
         APPLE.x = c.x;
         APPLE.y = c.y;
-            
+        }
         
     }
 }
@@ -73,6 +84,8 @@ class Snake
     gameOver:boolean = false;
     lastScored:boolean = false;
     score:number = 0;
+    highScore:number = 0;
+    damageed:boolean = false;
     cells:SnakeCell[] = [
         new SnakeCell(1,1)
 
@@ -83,27 +96,54 @@ class Snake
 
         let nx = this.x + this.dx;
         let ny = this.y + this.dy;
-        if(nx < 0 || ny < 0 || ny >= MAP.height || nx >= MAP.width)
-        {
-            this.gameOver  = true;
-            return;
+        let hit = false;
+        if(nx < 0 || ny < 0 || ny >= MAP.height || nx >= MAP.width) {
+            if (this.cells.length < 2) {
+                this.gameOver = true;
+                return;
+            }else{
+
+                hit = true;
+            }
         }
         for (let cell of this.cells)
         {
             if(nx == cell.x && ny == cell.y)
             {
+                if (this.cells.length < 2) {
                 this.gameOver = true;
                 return;
+            }else{
+
+                hit = true;
             }
+            }
+        }
+        SNAKE.damageed = false;
+        if(hit) {
+            SNAKE.score--;
+            SNAKE.damageed = true;
+            let newCells = [];
+            let i = 0;
+            for (i = 0; i < this.cells.length; i++) {
+                if (i != this.cells.length - 1) {
+                    newCells.push(this.cells[i]);
+                }
+            }
+            nx = this.x;
+            ny = this.y;
+            this.cells = newCells;
         }
         let score = (nx == APPLE.x && ny == APPLE.y);
 
         let lastCell = new SnakeCell(nx,ny);
-        for (let cell of this.cells) {
-            let orig = new SnakeCell(cell.x,cell.y);
-            cell.x = lastCell.x;
-            cell.y = lastCell.y;
-            lastCell = orig;
+        if(!hit) {
+            for (let cell of this.cells) {
+                let orig = new SnakeCell(cell.x, cell.y);
+                cell.x = lastCell.x;
+                cell.y = lastCell.y;
+                lastCell = orig;
+            }
         }
         if(this.lastScored)
         {
@@ -112,11 +152,12 @@ class Snake
         }
         if(score)
         {
-
+            SNAKE.score++;
+            if(SNAKE.score > SNAKE.highScore)
+                SNAKE.highScore = SNAKE.score;
             this.lastScored = true;
             APPLE.move();
         }
-
         this.x = nx;
         this.y = ny;
 
@@ -176,7 +217,7 @@ function go()
     window.onkeydown = key;
     window.onkeypress = key;
     let s = new Student("rob","g","mayhew");
-    setTimeout(tick, 400);
+    setTimeout(tick, 100);
 }
 
 function tick()
@@ -185,25 +226,33 @@ function tick()
     SNAKE.tick();
     ctx.fillStyle = "#000000";
     let size = 15;
-    ctx.clearRect(0,0,MAP.width*size,MAP.height*size);
-    ctx.strokeRect(0,0,MAP.width*size,MAP.height*size);
+    let header = 20;
 
+    ctx.clearRect(0,0,MAP.width*size,MAP.height*size + header);
+    ctx.strokeRect(0,header,MAP.width*size,MAP.height*size);
+
+    ctx.strokeText("Score: " + SNAKE.score + " High: " + SNAKE.highScore,10,10);
     var percent = 0;
     for(let cell  of SNAKE.cells)
     {
-        ctx.fillStyle = blendColors("#000000","#00ff00", percent)
+        let startColor = "#000000";
+        if(SNAKE.damageed)
+        {
+            startColor = "#FF0000";
+        }
+        ctx.fillStyle = blendColors(startColor,"#00ff00", percent)
         let x = cell.x * size;
-        let y = cell.y * size;
+        let y = cell.y * size + header;
         ctx.fillRect(x,y,size-1,size-1);
         percent = percent + 0.01
         if(percent >= 0.9)
             percent = 0.9;
     }
     ctx.fillStyle = "#ff0000";
-    ctx.fillRect(APPLE.x*size, APPLE.y*size,size-1,size-1);
+    ctx.fillRect(APPLE.x*size, APPLE.y*size + header,size-1,size-1);
 
     keyPressed = false;
-    setTimeout(tick, 500);
+    setTimeout(tick, 150);
 }
 
 
