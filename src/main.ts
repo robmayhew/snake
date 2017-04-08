@@ -7,8 +7,8 @@ class Student {
 
 
 class Map{
-    width: number = 10;
-    height: number = 10;
+    width: number = 20;
+    height: number = 20;
 }
 
 
@@ -57,7 +57,7 @@ class Apple
             }
         }
         if (openCells.length == 0) {
-            SNAKE.gameOver = true;
+            SNAKE.win = true;
             return;
         }
         if (close != null) {
@@ -80,17 +80,31 @@ class Snake
     dy:number = 0;
     x:number = 1;
     y:number = 1;
-
+    lastTick:number = 0;
+    tickTime:number = 250;
     gameOver:boolean = false;
     lastScored:boolean = false;
     score:number = 0;
     highScore:number = 0;
     damageed:boolean = false;
+    win:boolean = false;
     cells:SnakeCell[] = [
         new SnakeCell(1,1)
 
     ];
     tick(){
+        let now = new Date().getTime();
+        let passed = now - this.lastTick;
+        if(passed < this.tickTime)
+        {
+            return; 
+            
+        }
+        this.lastTick = now;
+        if(this.win)
+        {
+            this.gameOver = true;
+        }
         if(this.gameOver)
             return;
 
@@ -181,7 +195,6 @@ function go()
         if(keyPressed)return;
         if(e.key == 'w')
         {
-
             if(SNAKE.dy == 0 ) {
                 keyPressed = true;
                 SNAKE.dy = -1;
@@ -215,9 +228,10 @@ function go()
 
     };
     window.onkeydown = key;
-    window.onkeypress = key;
+    //window.onkeyup = key;
+    //window.onkeypress = key;
     let s = new Student("rob","g","mayhew");
-    setTimeout(tick, 100);
+    requestAnimationFrame(tick);
 }
 
 function tick()
@@ -225,34 +239,36 @@ function tick()
     
     SNAKE.tick();
     ctx.fillStyle = "#000000";
-    let size = 15;
+    let size = 20;
     let header = 20;
 
     ctx.clearRect(0,0,MAP.width*size,MAP.height*size + header);
     ctx.strokeRect(0,header,MAP.width*size,MAP.height*size);
-
-    ctx.strokeText("Score: " + SNAKE.score + " High: " + SNAKE.highScore,10,10);
-    var percent = 0;
-    for(let cell  of SNAKE.cells)
+    if(SNAKE.win)
     {
-        let startColor = "#000000";
-        if(SNAKE.damageed)
-        {
-            startColor = "#FF0000";
+        ctx.strokeText("YOU WIN!", 10, 50);
+    } else {
+        ctx.strokeText("Score: " + SNAKE.score + " High: " + SNAKE.highScore, 10, 10);
+        var percent = 0;
+        for (let cell  of SNAKE.cells) {
+            let startColor = "#000000";
+            if (SNAKE.damageed) {
+                startColor = "#FF0000";
+            }
+            ctx.fillStyle = blendColors(startColor, "#00ff00", percent)
+            let x = cell.x * size;
+            let y = cell.y * size + header;
+            ctx.fillRect(x, y, size - 1, size - 1);
+            percent = percent + 0.01
+            if (percent >= 0.9)
+                percent = 0.9;
         }
-        ctx.fillStyle = blendColors(startColor,"#00ff00", percent)
-        let x = cell.x * size;
-        let y = cell.y * size + header;
-        ctx.fillRect(x,y,size-1,size-1);
-        percent = percent + 0.01
-        if(percent >= 0.9)
-            percent = 0.9;
-    }
-    ctx.fillStyle = "#ff0000";
-    ctx.fillRect(APPLE.x*size, APPLE.y*size + header,size-1,size-1);
+        ctx.fillStyle = "#ff0000";
+        ctx.fillRect(APPLE.x * size, APPLE.y * size + header, size - 1, size - 1);
 
-    keyPressed = false;
-    setTimeout(tick, 150);
+        keyPressed = false;
+    }
+    requestAnimationFrame(tick);
 }
 
 
