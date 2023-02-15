@@ -1,4 +1,4 @@
-var Student = (function () {
+var Student = /** @class */ (function () {
     function Student(firstName, middleInitial, lastName) {
         this.firstName = firstName;
         this.middleInitial = middleInitial;
@@ -7,14 +7,14 @@ var Student = (function () {
     }
     return Student;
 }());
-var Map = (function () {
+var Map = /** @class */ (function () {
     function Map() {
-        this.width = 20;
-        this.height = 20;
+        this.width = 10;
+        this.height = 10;
     }
     return Map;
 }());
-var SnakeCell = (function () {
+var SnakeCell = /** @class */ (function () {
     function SnakeCell(xIn, yIn) {
         this.xIn = xIn;
         this.yIn = yIn;
@@ -25,7 +25,7 @@ var SnakeCell = (function () {
     }
     return SnakeCell;
 }());
-var Apple = (function () {
+var Apple = /** @class */ (function () {
     function Apple() {
         this.x = 1;
         this.y = 1;
@@ -36,9 +36,9 @@ var Apple = (function () {
         var ix = 0;
         var iy = 0;
         var openCells = [];
-        var close = null;
-        for (ix = 0; ix < MAP.height; ix++) {
-            for (iy = 0; iy < MAP.width; iy++) {
+        var close = [];
+        for (ix = 0; ix < MAP.width; ix++) {
+            for (iy = 0; iy < MAP.height; iy++) {
                 good = true;
                 for (var _i = 0, _a = SNAKE.cells; _i < _a.length; _i++) {
                     var cell = _a[_i];
@@ -55,7 +55,7 @@ var Apple = (function () {
                     if (sy < 1)
                         sy = sy * -1;
                     if (sx < 5 && sy < 5) {
-                        close = new SnakeCell(ix, iy);
+                        close.push(new SnakeCell(ix, iy));
                     }
                 }
             }
@@ -64,9 +64,13 @@ var Apple = (function () {
             SNAKE.win = true;
             return;
         }
-        if (close != null) {
-            APPLE.x = close.x;
-            APPLE.y = close.y;
+        if (close.length > 0) {
+            var ii = Math.floor(Math.random() * close.length);
+            if (ii == close.length)
+                ii--;
+            var c_1 = close[ii];
+            APPLE.x = c_1.x;
+            APPLE.y = c_1.y;
         }
         else {
             var i = Math.floor(Math.random() * openCells.length);
@@ -77,10 +81,11 @@ var Apple = (function () {
     };
     return Apple;
 }());
-var Snake = (function () {
+var Snake = /** @class */ (function () {
     function Snake() {
         this.dx = 1;
         this.dy = 0;
+        this.waitingDelta = [];
         this.x = 1;
         this.y = 1;
         this.lastTick = 0;
@@ -107,6 +112,25 @@ var Snake = (function () {
         }
         if (this.gameOver)
             return;
+        if (this.waitingDelta.length > 0) {
+            var w = this.waitingDelta.shift();
+            if (w == 'w') {
+                this.dx = 0;
+                this.dy = -1;
+            }
+            else if (w == 'a') {
+                this.dx = -1;
+                this.dy = 0;
+            }
+            else if (w == 's') {
+                this.dx = 0;
+                this.dy = 1;
+            }
+            else if (w == 'd') {
+                this.dx = 1;
+                this.dy = 0;
+            }
+        }
         var nx = this.x + this.dx;
         var ny = this.y + this.dy;
         var hit = false;
@@ -183,41 +207,11 @@ function go() {
     var canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     var key = function (e) {
-        if (keyPressed)
-            return;
-        if (e.key == 'w') {
-            if (SNAKE.dy == 0) {
-                keyPressed = true;
-                SNAKE.dy = -1;
-                SNAKE.dx = 0;
-            }
-        }
-        else if (e.key == 's') {
-            if (SNAKE.dy == 0) {
-                keyPressed = true;
-                SNAKE.dy = 1;
-                SNAKE.dx = 0;
-            }
-        }
-        else if (e.key == 'a') {
-            if (SNAKE.dx == 0) {
-                keyPressed = true;
-                SNAKE.dy = 0;
-                SNAKE.dx = -1;
-            }
-        }
-        else if (e.key == 'd') {
-            if (SNAKE.dx == 0) {
-                keyPressed = true;
-                SNAKE.dy = 0;
-                SNAKE.dx = 1;
-            }
-        }
+        SNAKE.waitingDelta.push(e.key);
     };
     window.onkeydown = key;
     //window.onkeyup = key;
     //window.onkeypress = key;
-    var s = new Student("rob", "g", "mayhew");
     requestAnimationFrame(tick);
 }
 function tick() {

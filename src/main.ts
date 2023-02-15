@@ -7,8 +7,8 @@ class Student {
 
 
 class Map{
-    width: number = 20;
-    height: number = 20;
+    width: number = 10;
+    height: number = 10;
 }
 
 
@@ -35,9 +35,9 @@ class Apple
         var ix = 0;
         var iy = 0;
         let openCells = [];
-        let close = null;
-        for (ix = 0; ix < MAP.height; ix++) {
-            for (iy = 0; iy < MAP.width; iy++) {
+        let close = [];
+        for (ix = 0; ix < MAP.width; ix++) {
+            for (iy = 0; iy < MAP.height; iy++) {
                 good = true;
                 for (let cell  of SNAKE.cells) {
                     if (ix == cell.x && iy == cell.y) {
@@ -51,7 +51,8 @@ class Apple
                     if (sx < 1) sx = sx * -1;
                     if (sy < 1) sy = sy * -1;
                     if (sx < 5 && sy < 5) {
-                        close = new SnakeCell(ix, iy);
+                            close.push(new SnakeCell(ix, iy));
+
                     }
                 }
             }
@@ -60,9 +61,12 @@ class Apple
             SNAKE.win = true;
             return;
         }
-        if (close != null) {
-            APPLE.x = close.x;
-            APPLE.y = close.y;
+        if (close.length > 0) {
+            var ii = Math.floor(Math.random() * close.length);
+            if(ii == close.length) ii--;
+            let c = close[ii];
+            APPLE.x = c.x;
+            APPLE.y = c.y;
         } else {
 
         var i = Math.floor(Math.random() * openCells.length);
@@ -78,6 +82,7 @@ class Snake
 {
     dx:number = 1;
     dy:number = 0;
+    waitingDelta = [];
     x:number = 1;
     y:number = 1;
     lastTick:number = 0;
@@ -108,6 +113,24 @@ class Snake
         if(this.gameOver)
             return;
 
+        if(this.waitingDelta.length > 0)
+        {
+            let w = this.waitingDelta.shift();
+            if(w == 'w')
+            {
+                this.dx = 0;
+                this.dy = -1;
+            }else if(w == 'a') {
+                this.dx = -1;
+                this.dy = 0;
+            }else if(w == 's') {
+                this.dx = 0;
+                this.dy = 1;
+            }else if(w == 'd') {
+                this.dx = 1;
+                this.dy = 0;
+            }
+        }
         let nx = this.x + this.dx;
         let ny = this.y + this.dy;
         let hit = false;
@@ -192,45 +215,12 @@ function go()
     ctx = canvas.getContext("2d");
 
     var key = function(e){
-        if(keyPressed)return;
-        if(e.key == 'w')
-        {
-            if(SNAKE.dy == 0 ) {
-                keyPressed = true;
-                SNAKE.dy = -1;
-                SNAKE.dx = 0;
-            }
-        }else if(e.key == 's')
-        {
-            
-            if(SNAKE.dy == 0) {
-                keyPressed = true;
-                SNAKE.dy = 1;
-                SNAKE.dx = 0;
-            }
-        }else if(e.key == 'a')
-        {
-
-            if(SNAKE.dx == 0) {
-                keyPressed = true;
-                SNAKE.dy = 0;
-                SNAKE.dx = -1;
-            }
-        }else if(e.key == 'd')
-        {
-
-            if(SNAKE.dx == 0) {
-                keyPressed = true;
-                SNAKE.dy = 0;
-                SNAKE.dx = 1;
-            }
-        }
-
+        SNAKE.waitingDelta.push(e.key);
     };
     window.onkeydown = key;
     //window.onkeyup = key;
     //window.onkeypress = key;
-    let s = new Student("rob","g","mayhew");
+
     requestAnimationFrame(tick);
 }
 
