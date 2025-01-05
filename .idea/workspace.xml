@@ -7,11 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ed54372-1279-4ce6-992a-50b3236b4ae1" name="Default" comment="- Added HTML Controls&#10;- Added Speed control&#10;- Will render on mobile, but not well :)">
+    <list default="true" id="7ed54372-1279-4ce6-992a-50b3236b4ae1" name="Default" comment="- Added github link">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sh" beforeDir="false" afterPath="$PROJECT_DIR$/build.sh" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/html/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/html/bundle.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -615,7 +613,7 @@
       <workItem from="1728769045918" duration="3770000" />
       <workItem from="1734277277954" duration="8384000" />
       <workItem from="1734551260442" duration="7830000" />
-      <workItem from="1736010006759" duration="10206000" />
+      <workItem from="1736010006759" duration="12028000" />
     </task>
     <task id="LOCAL-00001" summary="Minor fixes. Still fun!">
       <created>1676431482292</created>
@@ -624,7 +622,23 @@
       <option name="project" value="LOCAL" />
       <updated>1676431482292</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="- Added HTML Controls&#10;- Added Speed control&#10;- Will render on mobile, but not well :)">
+      <option name="closed" value="true" />
+      <created>1736092706265</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1736092706265</updated>
+    </task>
+    <task id="LOCAL-00003" summary="- Added github link">
+      <option name="closed" value="true" />
+      <created>1736093069921</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1736093069921</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -674,7 +688,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Minor fixes. Still fun!" />
     <MESSAGE value="- Added HTML Controls&#10;- Added Speed control&#10;- Will render on mobile, but not well :)" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added HTML Controls&#10;- Added Speed control&#10;- Will render on mobile, but not well :)" />
+    <MESSAGE value="- Added github link" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added github link" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -685,7 +700,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/main.ts</url>
-          <line>293</line>
+          <line>295</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
