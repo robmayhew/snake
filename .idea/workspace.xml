@@ -7,9 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7ed54372-1279-4ce6-992a-50b3236b4ae1" name="Default" comment="- Added github link">
+    <list default="true" id="7ed54372-1279-4ce6-992a-50b3236b4ae1" name="Default" comment="- Added start screen">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/html/bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/html/bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/html/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/html/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -613,7 +613,7 @@
       <workItem from="1728769045918" duration="3770000" />
       <workItem from="1734277277954" duration="8384000" />
       <workItem from="1734551260442" duration="7830000" />
-      <workItem from="1736010006759" duration="12028000" />
+      <workItem from="1736010006759" duration="12216000" />
     </task>
     <task id="LOCAL-00001" summary="Minor fixes. Still fun!">
       <created>1676431482292</created>
@@ -638,7 +638,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736093069921</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="- Added start screen">
+      <option name="closed" value="true" />
+      <created>1736098635843</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736098635843</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -689,7 +697,8 @@
     <MESSAGE value="Minor fixes. Still fun!" />
     <MESSAGE value="- Added HTML Controls&#10;- Added Speed control&#10;- Will render on mobile, but not well :)" />
     <MESSAGE value="- Added github link" />
-    <option name="LAST_COMMIT_MESSAGE" value="- Added github link" />
+    <MESSAGE value="- Added start screen" />
+    <option name="LAST_COMMIT_MESSAGE" value="- Added start screen" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

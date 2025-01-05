@@ -319,7 +319,7 @@ function resizeCanvas() {
 
     // Calculate canvas size based on the window dimensions and map size
     const availableWidth = window.innerWidth * .85;
-    const availableHeight = window.innerHeight * .60;
+    const availableHeight = window.innerHeight * .55;
 
     const gameWidth = MAP.width * size;
     const gameHeight = MAP.height * size + header;
