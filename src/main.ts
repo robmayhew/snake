@@ -107,16 +107,16 @@ class Snake {
 
         if (this.waitingDelta.length > 0) {
             let w = this.waitingDelta.shift();
-            if (w == 'w') {
+            if (w == 'w' || w == 'W') {
                 this.dx = 0;
                 this.dy = -1;
-            } else if (w == 'a') {
+            } else if (w == 'a' || w == 'A') {
                 this.dx = -1;
                 this.dy = 0;
-            } else if (w == 's') {
+            } else if (w == 's' || w == 'S') {
                 this.dx = 0;
                 this.dy = 1;
-            } else if (w == 'd') {
+            } else if (w == 'd' || w == 'D') {
                 this.dx = 1;
                 this.dy = 0;
             }
